@@ -1,22 +1,29 @@
 <template>
   <div id="textbox">
     <div class="form-group">
-      <textarea
-        v-model="text"
-        v-on:keyup.enter.ctrl.exact="sendText"
-        v-class="{active: toggleBold}"
-        class="form-control"
-      ></textarea>
+      <textarea v-model="text" v-on:keyup.enter.ctrl.exact="sendText" class="form-control"></textarea>
     </div>
     <div class="settings">
       <button v-on:click="sendText" class="btn">Send</button>
       <button v-on:click="sendLFCR" class="btn">LF/CR</button>
-      <toggle-button
-        @change="toggleBold"
-        :sync="true"
-        :labels="{unchecked: 'bold off', checked: 'bold on'}"
-        :width="80"
-      />
+    </div>
+    <div class="toggles">
+      <div class="toggle">
+        <span>Bold</span>
+        <toggle-button @change="sendFormat" v-model="format.bold" :sync="true" :labels="true"/>
+      </div>
+      <div class="toggle">
+        <span>Center</span>
+        <toggle-button @change="sendFormat" v-model="format.center" :sync="true" :labels="true"/>
+      </div>
+      <div class="toggle">
+        <span>2x Height</span>
+        <toggle-button @change="sendFormat" v-model="format.height2x" :sync="true" :labels="true"/>
+      </div>
+      <div class="toggle">
+        <span>Underline</span>
+        <toggle-button @change="sendFormat" v-model="format.underline" :sync="true" :labels="true"/>
+      </div>
     </div>
   </div>
 </template>
@@ -30,8 +37,16 @@ export default {
   data() {
     return {
       text: "",
-      bold: false
+      format: {
+        bold: false,
+        center: false,
+        height2x: false,
+        underline: false
+      }
     };
+  },
+  mounted() {
+    this.sendFormat();
   },
   methods: {
     sendText: function() {
@@ -42,10 +57,8 @@ export default {
     sendLFCR: function() {
       HTTP.get("/lfcr/");
     },
-    toggleBold: function(e) {
-      HTTP.post("/bold/", {
-        bold: e.value
-      });
+    sendFormat: function() {
+      HTTP.post("/format/", this.format);
     }
   }
 };
@@ -61,5 +74,20 @@ textarea {
   margin-left: auto;
   margin-right: auto;
   /* text-align: center; */
+}
+
+.toggles {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.toggle {
+  padding-right: 20px;
+}
+
+.toggle span {
+  font-size: 15pt;
+  margin-right: 5px;
 }
 </style>
