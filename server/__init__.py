@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-printer = Adafruit_Thermal("/dev/ttyACM0", 19200, timeout=5)
+printer = Adafruit_Thermal("/dev/ttyS0", 19200, timeout=5)
 
 from server import routes
 
