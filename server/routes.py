@@ -11,9 +11,8 @@ class Test(Resource):
 class PrintText(Resource):
 
     def post(self):
-        printer.begin(250)
+        printer.begin(200)
         args = request.get_json()
-        print(args["user_input"])
         printer.print(args["user_input"])
         printer.feed(1)
 
@@ -26,8 +25,6 @@ class Format(Resource):
 
     def post(self):
         args = request.get_json()
-
-        print(args)
 
         #bold
         if args["bold"] is True:
@@ -53,10 +50,22 @@ class Format(Resource):
         else:
             printer.underlineOff()
 
+class Barcode(Resource):
+
+    def post(self):
+        
+        args = request.get_json()
+
+        print(args["user_input"], args["barcode_type"])
+
+        printer.printBarcode(args["user_input"])
+
 
 api.add_resource(Test, "/test/")
 api.add_resource(PrintText, "/print_text/")
+api.add_resource(LFCR, "/lfcr/")
 api.add_resource(Format, "/format/")
+api.add_resource(Barcode, "/print_barcode/")
 
 if __name__ == "__main__":
     app.run(port=5001, debug=True)

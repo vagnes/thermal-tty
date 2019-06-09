@@ -260,7 +260,7 @@ class Adafruit_Thermal(Serial):
 	CODE11  =  9
 	MSI     = 10
 
-	def printBarcode(self, text, type):
+	def printBarcode(self, text, type=UPC_A):
 		self.writeBytes(
 		  29,  72, 2,    # Print label below barcode
 		  29, 119, 3,    # Barcode width

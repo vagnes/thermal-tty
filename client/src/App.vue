@@ -8,7 +8,7 @@
       crossorigin="anonymous"
     >
   </head>
-  <Header headline="RTTY" subtitle="The thermal printer communicator"/>
+  <Header headline="thermal-tty" subtitle="The thermal printer communicator"/>
   <Textbox/>
 </div>
 </template>

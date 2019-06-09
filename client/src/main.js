@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios';
-import ToggleButton from "vue-js-toggle-button";
+import ToggleButton from 'vue-js-toggle-button';
 
 Vue.use(axios)
 
@@ -11,6 +11,7 @@ export const HTTP = axios.create({
 })
 
 Vue.use(ToggleButton)
+
 
 Vue.config.productionTip = false
 

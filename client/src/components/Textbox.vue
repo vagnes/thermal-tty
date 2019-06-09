@@ -25,18 +25,51 @@
         <toggle-button @change="sendFormat" v-model="format.underline" :sync="true" :labels="true"/>
       </div>
     </div>
+    <br>
+    <br>
+    <h2>Send a barcode</h2>
+    <div class="form-group">
+      <textarea
+        v-model="barcode.text"
+        v-on:keyup.enter.ctrl.exact="sendBarcode"
+        class="form-control"
+      ></textarea>
+    </div>
+    <div class="settings">
+      <button v-on:click="sendBarcode" class="btn">Send</button>
+    </div>
+    <multiselect v-model="barcode.selected_type" :options="barcode.types"></multiselect>
   </div>
 </template>
 
 <script>
 import { HTTP } from "../main";
+import Multiselect from "vue-multiselect";
 
 export default {
   name: "Textbox",
+  components: { Multiselect },
   props: {},
   data() {
     return {
       text: "",
+      barcode: {
+        text: "",
+        selected_type: "UPC_E",
+        types: [
+          "UPC_A",
+          "UPC_E",
+          "EAN13",
+          "EAN8",
+          "CODE39",
+          "I25",
+          "CODEBAR",
+          "CODE93",
+          "CODE128",
+          "CODE11",
+          "MSI"
+        ]
+      },
       format: {
         bold: false,
         center: false,
@@ -53,6 +86,12 @@ export default {
       HTTP.post("/print_text/", {
         user_input: this.text
       }).then((this.text = ""));
+    },
+    sendBarcode: function() {
+      HTTP.post("/print_barcode/", {
+        user_input: this.barcode.text,
+        barcode_type: this.barcode.selected_type
+      }).then((this.barcode.text = ""));
     },
     sendLFCR: function() {
       HTTP.get("/lfcr/");
