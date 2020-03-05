@@ -1,20 +1,19 @@
-import Vue from 'vue'
-import App from './App.vue'
-import axios from 'axios';
-import ToggleButton from 'vue-js-toggle-button';
+import Vue from "vue";
+import App from "./App.vue";
+import axios from "axios";
+import ToggleButton from "vue-js-toggle-button";
 
-Vue.use(axios)
+Vue.use(axios);
 
 export const HTTP = axios.create({
-  baseURL: 'http://192.168.0.31:5001',
+  baseURL: "https://localhost:5001/api",
   headers: {}
-})
+});
 
-Vue.use(ToggleButton)
+Vue.use(ToggleButton);
 
-
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  render: h => h(App)
+}).$mount("#app");
