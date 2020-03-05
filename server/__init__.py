@@ -1,13 +1,16 @@
+from server import routes
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
-from server.Adafruit_Thermal import *
+import adafruit_thermal_printer
+import serial
 
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-printer = Adafruit_Thermal("/dev/ttyS0", 19200, timeout=5)
+ThermalPrinter = adafruit_thermal_printer.get_printer_class(2.69)
 
-from server import routes
+uart = serial.Serial("/dev/ttyAMA0", baudrate=19200, timeout=3000)
 
+printer = ThermalPrinter(uart, auto_warm_up=False)
